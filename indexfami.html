@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Compras y Presupuesto Familiar</title>
+    <link rel="stylesheet" href="css/estilos3.css">
+</head>
+<body>
+
+    <header>
+        <h1>Simulador de Compras Familiares</h1>
+        <p>Herramienta educativa para el control de gastos de la canasta básica bajo presupuestos limitados</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Pantalla Principal</a>
+        <a href="#inicio">¿Para qué sirve?</a>
+        <a href="#simulador">Realizar Simulación</a>
+        <a href="#casos">Ejemplos de Prueba</a>
+        <a href="#conclusiones">Conclusión Financiera</a>
+    </nav>
+
+    <main>
+        
+        <section id="inicio" class="tarjeta-explicativa">
+            <h2>¿Cuál es el objetivo de este cálculo?</h2>
+            <p>En tiempos de incertidumbre económica, los precios de los alimentos básicos varían constantemente, afectando el poder adquisitivo del hogar. El propósito de este simulador es ayudarte a <strong>planificar tus compras antes de salir al mercado</strong>. Al ingresar tus fondos disponibles y los productos que necesitas, el sistema te indicará de forma matemática si tu dinero es suficiente, cuánto te quedará como saldo libre para emergencias o cuánto te hace falta exactamente para cubrir la cuenta, clasificando además la severidad del gasto.</p>
+        </section>
+
+        <section id="simulador" class="grid-simulador">
+            
+            <div class="tarjeta">
+                <h3>1. Ingreso de Datos (Entradas)</h3>
+                <form id="formulario-presupuesto">
+                    <div class="grupo-control">
+                        <label for="presupuesto">Tu Presupuesto Disponible (Bs):</label>
+                        <span class="subtexto-label">Dinero total asignado para esta compra.</span>
+                        <input type="number" id="presupuesto" step="0.01" min="0.1" placeholder="Ej. 500" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="producto">Nombre del Producto:</label>
+                        <span class="subtexto-label">¿Qué alimento o insumo vas a comprar?</span>
+                        <input type="text" id="producto" placeholder="Ej. Arroz, Carne, Fideo" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="precio">Precio por Unidad (Bs):</label>
+                        <span class="subtexto-label">Costo unitario actual del producto en el mercado.</span>
+                        <input type="number" id="precio" step="0.01" min="0.01" placeholder="Ej. 8.50" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="cantidad">Cantidad a Comprar:</label>
+                        <span class="subtexto-label">Número de unidades, kilos o paquetes requeridos.</span>
+                        <input type="number" id="cantidad" step="0.01" min="0.01" placeholder="Ej. 10" required>
+                    </div>
+
+                    <div class="botones-flex">
+                        <button type="submit" class="btn btn-calcular">Calcular y Evaluar</button>
+                        <button type="button" id="btn-limpiar" class="btn btn-limpiar">Borrar Datos</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tarjeta" id="contenedor-resultados">
+                <h3>2. Diagnóstico del Presupuesto (Salidas)</h3>
+                <div id="estado-inicial-mensaje">
+                    <p class="txt-centrado">Introduce los datos del formulario de la izquierda y haz clic en "Calcular y Evaluar" para obtener el análisis financiero en tiempo real.</p>
+                </div>
+                
+                <div id="resultados-dinamicos" class="oculto">
+                    <div id="alerta-impacto" class="alerta"></div>
+                    
+                    <table class="tabla-resultados">
+                        <thead>
+                            <tr>
+                                <th>Concepto Analizado</th>
+                                <th>Resultado Extraído</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fondo Familiar Inicial</td>
+                                <td id="res-presupuesto" class="negrita">-</td>
+                            </tr>
+                            <tr>
+                                <td>Insumo Evaluado</td>
+                                <td id="res-producto">-</td>
+                            </tr>
+                            <tr>
+                                <td>Costo Total de la Compra</td>
+                                <td id="res-total-compra" class="negrita">-</td>
+                            </tr>
+                            <tr>
+                                <td>Evaluación del Nivel de Gasto</td>
+                                <td id="res-clasificacion">-</td>
+                            </tr>
+                            <tr class="fila-destacada">
+                                <td>Estado Final de tu Dinero</td>
+                                <td id="res-saldo">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="casos" class="tarjeta">
+            <h2>Casos de Estudio para Probar el Sistema</h2>
+            <p>Puedes verificar el correcto funcionamiento del simulador y observar cómo reaccionan las alertas de salida introduciendo los siguientes datos del contexto real de la canasta básica:</p>
+            
+            <div class="tabla-contenedor-responsiva">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Caso de Prueba</th>
+                            <th>Presupuesto</th>
+                            <th>Precio Unitario</th>
+                            <th>Cantidad</th>
+                            <th>Costo Esperado</th>
+                            <th>Comportamiento de Salida Esperado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Supera el Presupuesto</strong></td>
+                            <td>500.00 Bs</td>
+                            <td>116.00 Bs</td>
+                            <td>5 unidades</td>
+                            <td>580.00 Bs</td>
+                            <td><span class="txt-critico">No alcanza (Faltan 80.00 Bs)</span>. Alerta roja de déficit.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Gasto Alto / Límite</strong></td>
+                            <td>1,000.00 Bs</td>
+                            <td>45.00 Bs</td>
+                            <td>20 unidades</td>
+                            <td>900.00 Bs</td>
+                            <td><span class="txt-estable">Alcanza (Sobran 100.00 Bs)</span>. Clasificación: Gasto Alto.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Compra Segura / Gasto Bajo</strong></td>
+                            <td>600.00 Bs</td>
+                            <td>15.00 Bs</td>
+                            <td>8 unidades</td>
+                            <td>120.00 Bs</td>
+                            <td><span class="txt-estable">Alcanza (Sobran 480.00 Bs)</span>. Clasificación: Gasto Bajo.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="conclusiones" class="tarjeta">
+            <h2>Conclusión Educativa del Modelo</h2>
+            <p>Este simulador demuestra de forma práctica que la planificación evita el sobreendeudamiento. Cuando la clasificación arroja un <em>"Gasto Alto"</em> (superior al 75% del presupuesto total), significa que el hogar se queda con un margen de ahorro extremadamente vulnerable frente a imprevistos. En los casos donde el balance da negativo (déficit), el modelo matemático enseña que la familia debe reducir la cantidad de unidades o buscar un producto sustituto más económico para mantener el equilibrio financiero.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Materia: Programación Web I | Desafío Final</p>
+        <p>Proyecto desarrollado por: <strong>[JESSICA LIMA ALVARADO]</strong></p>
+        <p>&copy; 2026 - Herramientas Interactivas de Concientización Familiar.</p>
+    </footer>
+
+    <script src="js/script3.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Abastecimiento de Combustible y Filas</title>
+    <link rel="stylesheet" href="css/estilos1.css">
+</head>
+<body>
+
+    <header>
+        <h1>Simulador de Filas y Abastecimiento de Combustible</h1>
+        <p>Análisis de tiempos de espera y suministro en estaciones de servicio en contextos de alta demanda</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Pantalla Principal</a>
+        <a href="#inicio">Inicio</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#casos">Casos de Estudio</a>
+        <a href="#conclusiones">Conclusiones</a>
+    </nav>
+
+    <main>
+        
+        <section id="inicio" class="tarjeta">
+            <h2>Contexto del Problema</h2>
+            <p>Las dificultades en la cadena de distribución de carburantes generan un incremento atípico en la afluencia de vehículos a las estaciones de servicio. Esto produce largas filas de espera, ineficiencia temporal y problemas de logística urbana. Esta herramienta interactiva aplica un modelo matemático lineal para calcular el tiempo estimado que le tomará a un usuario ser atendido, el volumen total requerido por la fila y proyectar si la cisterna disponible logrará cubrir la demanda antes de agotarse.</p>
+        </section>
+
+        <section id="simulador" class="grid-simulador">
+            
+            <div class="tarjeta">
+                <h3>Ingreso de Parámetros</h3>
+                <form id="formulario-combustible">
+                    <div class="grupo-control">
+                        <label for="vehiculos">Número de vehículos por delante en la fila:</label>
+                        <input type="number" id="vehiculos" min="0" placeholder="cantidad de vehiculos" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="tiempo-atencion">Tiempo promedio de atención por vehículo (minutos):</label>
+                        <input type="number" id="tiempo-atencion" step="0.1" min="0.5" placeholder="ingrese los minutos" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="litros-promedio">Carga promedio solicitada por vehículo (Litros):</label>
+                        <input type="number" id="litros-promedio" step="1" min="1" placeholder="ingrese datoas" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="reserva-surtidor">Reserva disponible actual en el surtidor (Litros):</label>
+                        <input type="number" id="reserva-surtidor" step="1" min="0" placeholder="Ej. 2000" required>
+                    </div>
+
+                    <div class="botones-flex">
+                        <button type="submit" class="btn btn-calcular">Simular Fila</button>
+                        <button type="button" id="btn-limpiar" class="btn btn-limpiar">Limpiar Datos</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tarjeta" id="contenedor-resultados">
+                <h3>Resultados de la Proyección</h3>
+                <div id="estado-inicial-mensaje">
+                    <p class="txt-centrado">Introduce los datos de la estación de servicio y presiona "Simular Fila" para calcular los tiempos y la viabilidad del combustible.</p>
+                </div>
+                
+                <div id="resultados-dinamicos" class="oculto">
+                    <div id="alerta-impacto" class="alerta"></div>
+                    
+                    <table class="tabla-resultados">
+                        <thead>
+                            <tr>
+                                <th>Indicador Métrico</th>
+                                <th>Valor Calculado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tiempo de Espera Estimado (Minutos)</td>
+                                <td id="res-tiempo-minutos" class="negrita">-</td>
+                            </tr>
+                            <tr>
+                                <td>Tiempo de Espera Estimado (Horas)</td>
+                                <td id="res-tiempo-horas">-</td>
+                            </tr>
+                            <tr>
+                                <td>Demanda Total de la Fila (Litros)</td>
+                                <td id="res-demanda-total" class="negrita">-</td>
+                            </tr>
+                            <tr>
+                                <td>Reserva Disponible Inicial</td>
+                                <td id="res-reserva-inicial">-</td>
+                            </tr>
+                            <tr class="fila-destacada">
+                                <td>Balance de Combustible Remante</td>
+                                <td id="res-balance">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="casos" class="tarjeta">
+            <h2>Casos de Estudio para Validar</h2>
+            <p>Utiliza los siguientes escenarios simulados basados en observaciones de campo para corroborar la precisión del modelo algorítmico de la aplicación:</p>
+            
+            <div class="tabla-contenedor-responsiva">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Escenario</th>
+                            <th>Vehículos por delante</th>
+                            <th>Tiempo por auto</th>
+                            <th>Litros promedio</th>
+                            <th>Reserva Surtidor</th>
+                            <th>Resultado Esperado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Caso 1: Fila Corta / Abastecido</strong></td>
+                            <td>12 vehículos</td>
+                            <td>3.5 min</td>
+                            <td>40 Litros</td>
+                            <td>1,500 Litros</td>
+                            <td><span class="txt-estable">Éxito (Quedan 1020 L)</span> / 42 min de espera</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caso 2: Fila Crítica / Desabastecimiento</strong></td>
+                            <td>60 vehículos</td>
+                            <td>4.0 min</td>
+                            <td>45 Litros</td>
+                            <td>2,000 Litros</td>
+                            <td><span class="txt-critico">Insuficiente (Faltan 700 L)</span> / 4 horas de espera</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caso 3: Hora Pico / Límite de Reserva</strong></td>
+                            <td>30 vehículos</td>
+                            <td>3.0 min</td>
+                            <td>50 Litros</td>
+                            <td>1,550 Litros</td>
+                            <td><span class="txt-moderado">Crítico (Quedan solo 50 L)</span> / 1.5 horas de espera</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="conclusiones" class="tarjeta">
+            <h2>Conclusiones Técnicas</h2>
+            <p>La simulación demuestra que las largas filas no solamente representan un problema de disponibilidad de hidrocarburos, sino un cuello de botella logístico y de tiempo humano estructurado. Cuando el tiempo promedio de atención por vehículo sube ligeramente, el tiempo total de espera se dispara exponencialmente para los últimos lugares de la fila. Optimizar el despacho y digitalizar la información de inventarios en tiempo real son pasos indispensables para mitigar la incertidumbre social.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Materia: Programación Web I | Desafío Final</p>
+        <p>Desarrollado con fines educativos por: <strong>[JESSICA LIMA ALVARADO]</strong></p>
+        <p>&copy; 2026 - Modelación de Sistemas Urbanos de Distribución.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

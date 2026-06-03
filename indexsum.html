@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Precios de Alimentos | Canasta Familiar en Crisis</title>
+    <link rel="stylesheet" href="css/estilos2.css">
+</head>
+<body>
+
+    <header>
+        <h1>Simulador de Precios de Alimentos</h1>
+        <p>Análisis del impacto económico en la canasta básica familiar</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Pantalla Principal</a>
+        <a href="#inicio">Inicio</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#casos">Casos de Estudio</a>
+        <a href="#conclusiones">Conclusiones</a>
+    </nav>
+
+    <main>
+        
+        <section id="inicio" class="tarjeta">
+            <h2>Contexto del Problema</h2>
+            <p>En coyunturas económicas complejas, los productos de la canasta familiar sufren variaciones constantes de precios debido a la especulación, problemas de transporte o bloqueos. Esta herramienta educativa tiene como objetivo visualizar de forma cuantitativa cómo el incremento de precios afecta directamente el presupuesto mensual de los hogares, permitiendo calcular las diferencias reales entre los costos anteriores y los actuales.</p>
+        </section>
+
+        <section id="simulador" class="grid-simulador">
+            
+            <div class="tarjeta">
+                <h3>Ingreso de Datos</h3>
+                <form id="formulario-simulador">
+                    <div class="grupo-control">
+                        <label for="producto">Nombre del Producto:</label>
+                        <input type="text" id="producto" placeholder="Nombre del Producto" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="precio-anterior">Precio Anterior (Bs):</label>
+                        <input type="number" id="precio-anterior" step="0.01" min="0.1" placeholder="ingrese datos" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="precio-actual">Precio Actual (Bs):</label>
+                        <input type="number" id="precio-actual" step="0.01" min="0.1" placeholder="ingrese datos" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="cantidad-semana">Cantidad consumida por semana:</label>
+                        <input type="number" id="cantidad-semana" step="0.1" min="0.1" placeholder="" required>
+                    </div>
+
+                    <div class="grupo-control">
+                        <label for="semanas">Número de semanas a evaluar:</label>
+                        <input type="number" id="semanas" min="1" max="52" value="1" required>
+                    </div>
+
+                    <div class="botones-flex">
+                        <button type="submit" class="btn btn-calcular">Calcular Impacto</button>
+                        <button type="button" id="btn-limpiar" class="btn btn-limpiar">Limpiar Todo</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tarjeta" id="contenedor-resultados">
+                <h3>Resultados del Análisis</h3>
+                <div id="estado-inicial-mensaje">
+                    <p class="txt-centrado">Ingresa los datos en el formulario y presiona "Calcular" para ver los resultados del impacto económico.</p>
+                </div>
+                
+                <div id="resultados-dinamicos" class="oculto">
+                    <div id="alerta-impacto" class="alerta"></div>
+                    
+                    <table class="tabla-resultados">
+                        <thead>
+                            <tr>
+                                <th>Indicador</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Producto Evaluado</td>
+                                <td id="res-producto" class="negrita">-</td>
+                            </tr>
+                            <tr>
+                                <td>Incremento por Unidad</td>
+                                <td id="res-incremento-unidad">-</td>
+                            </tr>
+                            <tr>
+                                <td>Porcentaje de Aumento</td>
+                                <td id="res-porcentaje" class="negrita">-</td>
+                            </tr>
+                            <tr>
+                                <td>Gasto Semanal Anterior / Actual</td>
+                                <td id="res-gasto-semanal">-</td>
+                            </tr>
+                            <tr>
+                                <td>Gasto Total Anterior Periodo</td>
+                                <td id="res-total-anterior">-</td>
+                            </tr>
+                            <tr>
+                                <td>Gasto Total Actual Periodo</td>
+                                <td id="res-total-actual" class="negrita">-</td>
+                            </tr>
+                            <tr class="fila-destacada">
+                                <td>Pérdida / Gasto Adicional Total</td>
+                                <td id="res-diferencia">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="casos" class="tarjeta">
+            <h2>Casos de Estudio para Probar</h2>
+            <p>Utiliza los siguientes datos predefinidos tomados del contexto real de la canasta básica para verificar el correcto funcionamiento del simulador (calculado a un periodo estándar de 4 semanas):</p>
+            
+            <div class="tabla-contenedor-responsiva">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio Anterior</th>
+                            <th>Precio Actual</th>
+                            <th>Cantidad Mensual (4 sem)</th>
+                            <th>Resultado Esperado (Gasto Extra)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Arroz</strong></td>
+                            <td>8 Bs</td>
+                            <td>11 Bs</td>
+                            <td>10 unidades (2.5 por semana)</td>
+                            <td><span class="txt-critico">+30.00 Bs</span> (37.5% de aumento)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Papa</strong></td>
+                            <td>7 Bs</td>
+                            <td>10 Bs</td>
+                            <td>8 unidades (2.0 por semana)</td>
+                            <td><span class="txt-critico">+24.00 Bs</span> (42.86% de aumento)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aceite</strong></td>
+                            <td>12 Bs</td>
+                            <td>18 Bs</td>
+                            <td>4 unidades (1.0 por semana)</td>
+                            <td><span class="txt-critico">+24.00 Bs</span> (50.00% de aumento)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="nota-tabla">*Nota: Para probar estos casos exactos en el simulador, divida la cantidad mensual entre 4 para obtener la cantidad semanal requerida por el formulario.</p>
+        </section>
+
+        <section id="conclusiones" class="tarjeta">
+            <h2>Conclusiones Educativas</h2>
+            <p>El modelo matemático evidencia cómo variaciones que parecen mínimas por unidad (ej. de 8 a 11 Bs) se magnifican de forma crítica al multiplicarse por el consumo acumulado de las semanas. Esta herramienta ayuda a demostrar que la inflación real golpea más fuertemente a los insumos de primera necesidad, obligando a las familias a destinar un porcentaje significativamente mayor de sus ingresos fijos únicamente a la alimentación, mermando su calidad de vida y capacidad de ahorro.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Materia: Programación Web I | Desafío Final</p>
+        <p>Desarrollado con fines educativos por: <strong>[JESSICA LIMA ALVARADO]</strong></p>
+        <p>&copy; 2026 - Simulación de Entornos en Crisis.</p>
+    </footer>
+
+    <script src="js/script2.js"></script>
+</body>
+</html>
